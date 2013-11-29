@@ -1,6 +1,6 @@
 "
 " Author: kamichidu
-" Last Change: 29-Nov-2013.
+" Last Change: 30-Nov-2013.
 " Lisence: The MIT License (MIT)
 " 
 " Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 let s:save_cpo= &cpo
 set cpo&vim
 
-let s:V= vital#of('vital')
+let s:V= vital#of('vim-jsonrpc')
 let s:J= s:V.import('Web.JSON')
 unlet s:V
 
