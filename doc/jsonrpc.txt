@@ -1,0 +1,66 @@
+*jsonrpc.txt*                   JSON Remote Procedure Call client for Vim
+
+Version: 0.01
+Author:  kamichidu <c.kamunagi@gmail.com>
+License: The MIT License (MIT)
+
+Copyright (c) 2013 kamichidu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+CONTENTS                                                    *jsonrpc-contents*
+
+Introduction                                            |jsonrpc-introduction|
+Install                                                      |jsonrpc-install|
+Interface                                                  |jsonrpc-interface|
+Links                                                          |jsonrpc-links|
+
+==============================================================================
+INTRODUCTION                                            *jsonrpc-introduction*
+
+TODO
+
+==============================================================================
+INSTALL                                                      *jsonrpc-install*
+
+If you use `Shougo/neobundle.vim', you can write below configuration to your
+.vimrc. 
+>
+    NeoBundle 'KamunagiChiduru/vim-jsonrpc', {
+        'depends': ['Shougo/vimproc'],
+    \}
+<
+
+==============================================================================
+INTERFACE                                                  *jsonrpc-interface*
+
+jsonrpc#client({host}, {port})                              *jsonrpc#client()*
+    Connect to your server and construct new JSON RPC client object.
+    The return object is dictionary, APIs below.
+
+    call({funcname}, ...)
+        Invoke server-side function. you can pass any arguments to the server.
+        This function is synchronousness.
+
+    close()
+        Disconnect.
+
+==============================================================================
+vim:tw=78:ts=4:ft=help:norl:fen:
+
