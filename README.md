@@ -1,4 +1,8 @@
-vim-jsonrpc                               Remote Procedure Call client for vim
+vim-jsonrpc
+================================================================================
+Remote Procedure Call client for vim
+
+introduction
 --------------------------------------------------------------------------------
 this can call server-side function easily.
 
