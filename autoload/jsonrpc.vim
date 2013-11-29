@@ -48,9 +48,6 @@ function! s:prototype.call(func_name, ...)
     \   'params': a:000,
     \   'id':     '-tmp-v1wraMY-2',
     \}
-    echomsg '--- begin: l:request'
-    verbose PP l:request
-    echomsg '--- end: l:request'
 
     call self.socket.write(s:J.encode(l:request), 10)
 
