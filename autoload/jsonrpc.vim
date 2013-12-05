@@ -72,7 +72,7 @@ function! s:prototype.call(func_name, ...)
 
     let l:decoded_response= s:J.decode(l:response)
 
-    if l:request.id ==# l:decoded_response.id
+    if l:request.id !=# l:decoded_response.id
         throw 'jsonrpc: invalid response received'
     endif
 
