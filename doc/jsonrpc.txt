@@ -1,7 +1,8 @@
 *jsonrpc.txt*                   JSON Remote Procedure Call client for Vim
 
-Version: 0.01
+Version: 0.02
 Author:  kamichidu <c.kamunagi@gmail.com>
+Last Change: 06-Dec-2013.
 License: The MIT License (MIT)
 
 Copyright (c) 2013 kamichidu
@@ -60,6 +61,10 @@ jsonrpc#client({host}, {port})                              *jsonrpc#client()*
 
     close()
         Disconnect.
+
+    timeout_length({seconds})
+        Set timeout length on invoking server-side function. {seconds} must be
+        float-point number.
 
 ==============================================================================
 vim:tw=78:ts=4:ft=help:norl:fen:

@@ -1,6 +1,6 @@
 "
 " Author: kamichidu
-" Last Change: 30-Nov-2013.
+" Last Change: 06-Dec-2013.
 " Lisence: The MIT License (MIT)
 " 
 " Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,23 +30,28 @@ unlet s:V
 
 let s:prototype= {
 \   'socket': -1,
-\   'timeout_length': -1,
+\   '_timeout_length': 2.0,
 \}
 
 function! jsonrpc#client(host, port)
     let l:obj= deepcopy(s:prototype)
 
-    let l:obj.socket= vimproc#socket_open(a:host, a:port)
+    try
+        let l:obj.socket= vimproc#socket_open(a:host, a:port)
+    catch /^vimproc:/
+        throw 'jsonrpc: could not connect to ' . a:host . ':' . a:port
+    endtry
 
     return l:obj
 endfunction
 
-" http://json-rpc.org/wiki/specification
+" http://www.jsonrpc.org/specification
 function! s:prototype.call(func_name, ...)
     let l:request= {
+    \   'jsonrpc': '2.0',
     \   'method': a:func_name,
     \   'params': a:000,
-    \   'id':     '-tmp-v1wraMY-2',
+    \   'id':     'tmpv1wraMY2',
     \}
 
     call self.socket.write(s:J.encode(l:request), 10)
@@ -54,10 +59,12 @@ function! s:prototype.call(func_name, ...)
     let l:response= ''
     let l:start= s:now()
     while !self.socket.eof
-        let l:part= self.socket.read()
+        let l:part= self.socket.read(1024, 10)
 
-        if (len(l:response) > 0 || s:now() - l:start > 2000.0)
+        if !empty(l:response) && empty(l:part)
             break
+        elseif s:now() - l:start >= self._timeout_length
+            throw 'jsonrpc: connection timed out!'
         endif
 
         let l:response.= l:part
@@ -65,10 +72,16 @@ function! s:prototype.call(func_name, ...)
 
     let l:decoded_response= s:J.decode(l:response)
 
-    if empty(l:decoded_response.error)
+    if l:request.id ==# l:decoded_response.id
+        throw 'jsonrpc: invalid response received'
+    endif
+
+    if has_key(l:decoded_response, 'result')
         return l:decoded_response.result
-    else
+    elseif has_key(l:decoded_response, 'error')
         throw 'jsonrpc: got an error - ' . string(l:decoded_response.error.message)
+    else
+        throw 'jsonrpc: got an undefined response'
     endif
 endfunction
 
@@ -76,6 +89,14 @@ function! s:prototype.close()
     call self.socket.close()
 
     let self.socket= -1
+endfunction
+
+function! s:prototype.timeout_length(seconds)
+    if type(0.0) != type(a:seconds)
+        throw 'jsonrpc: argument must be float value'
+    endif
+
+    let self._timeout_length= a:seconds
 endfunction
 
 function! s:now()
